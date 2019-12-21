@@ -41,5 +41,12 @@
     </div>
     <script src="/db.js"></script>
     <script src="/index.js"></script>
+    <script>
+      const request = window.indexedDB.open("firstDatabase", 1);
+
+      request.onsuccess = event => {
+        console.log(request.result.name);
+      };
+    </script>
   </body>
 </html>

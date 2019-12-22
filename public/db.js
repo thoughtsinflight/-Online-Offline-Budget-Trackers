@@ -1,14 +1,25 @@
+const indexedDB =
+  window.indexedDB ||
+  window.mozIndexedDB ||
+  window.webkitIndexedDB ||
+  window.msIndexedDB ||
+  window.shimIndexedDB;
+
+
+
 let db;
+console.log("DB IS CONNECTED ++++++++++++++++++++++++++++++++++++++" );
+
 const request = indexedDB.open("budget", 1);
 
 request.onupgradeneeded = function(event) {
-  const db = event.target.result;
+  let db = event.target.result;
+  console.log(db);
   db.createObjectStore("pending", { autoIncrement: true });
 };
 
 request.onsuccess = function(event) {
   db = event.target.result;
-
   // check if app is online before reading from db
   if (navigator.onLine) {
     checkDatabase();
@@ -20,6 +31,7 @@ request.onerror = function(event) {
 };
 
 function saveRecord(record) {
+  
   const transaction = db.transaction(["pending"], "readwrite");
   const store = transaction.objectStore("pending");
 
